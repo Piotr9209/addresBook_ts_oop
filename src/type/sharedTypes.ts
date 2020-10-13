@@ -1,1 +1,1 @@
-export type availableKeys = 'name' | 'surname' | 'email';
+export type availableKeysContact = 'name' | 'surname' | 'email';

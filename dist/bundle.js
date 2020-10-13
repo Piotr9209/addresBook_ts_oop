@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/app.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/components/app.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -920,58 +920,6 @@ function version(uuid) {
 
 /***/ }),
 
-/***/ "./src/app.ts":
-/*!********************!*\
-  !*** ./src/app.ts ***!
-  \********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Contact__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Contact */ "./src/components/Contact.ts");
-/* harmony import */ var _components_GroupContact__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/GroupContact */ "./src/components/GroupContact.ts");
-/* harmony import */ var _components_AddressBook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AddressBook */ "./src/components/AddressBook.ts");
-// "1) Stwórz strukturę danych związaną z książką adresową.
-// Obiekt 
-// książka adresowa 
-// Ma mieć: listę wszystkich kontaktów, listę grup kontaktów.
-// Ma umożliwiać: można szukać kontaktu po frazie, można dodać kontakt do grupy
-//     Obiekt charakteryzujący pojedyńczy kontak:
-//     Ma mieć: Imie, Nazwisko, adres - emial, datę modyfikacji / utworzenia, uuid
-// Ma umożliwiać: aktualizację datę modyfikacji, wyświetlać
-// w odpowiednim formacie przy wywołaniu, pozwalac na modyfikację imienia, nazwiska oraz adresu email
-// Obiekt charakteryzujący grupę kontaktów:
-//     Ma mieć: listę kontaktów
-// Ma umożliwiać: Można zmienić nazwę grupy, można dodać lub usunac kontakt z grupy "				
-
-
-
-var contact = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Piotr', "J", 'p.j@gmail.com');
-var contact2 = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Jarek', 'Michalczewsk', 'JM@interia.pl');
-var contact3 = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Darek', 'fdsfds', 'ewrw@interia.pl');
-var contact4 = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('jacenty', 'zbysiu', 'KarolJM@interia.pl');
-var contact5 = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Marek', 'kowal', 'MAW@interia.pl');
-var contact6 = new _components_Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Mariusz', 'karnia', 'MKA@gmail.pl');
-var groupFriends = new _components_GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('znajomi');
-var groupFamily = new _components_GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('rodzina');
-var groupWork = new _components_GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('praca');
-groupFriends.addContacts(contact, contact2, contact3);
-groupFamily.addContacts(contact3, contact4);
-groupWork.addContacts(contact6, contact5);
-groupFriends.removeContacts(contact2);
-groupFriends.removeContacts(contact);
-var addressBook = new _components_AddressBook__WEBPACK_IMPORTED_MODULE_2__["AddressBook"]();
-addressBook.addContacts(contact, contact2, contact3, contact4, contact5, contact6);
-addressBook.addGroups(groupFriends);
-addressBook.addGroups(groupFamily);
-addressBook.addGroups(groupWork);
-// console.log(addressBook.searchContactFromPhrase('pio'));
-console.log(addressBook);
-
-
-/***/ }),
-
 /***/ "./src/components/AddressBook.ts":
 /*!***************************************!*\
   !*** ./src/components/AddressBook.ts ***!
@@ -982,6 +930,8 @@ console.log(addressBook);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddressBook", function() { return AddressBook; });
+/* harmony import */ var _Validator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Validator */ "./src/components/Validator.ts");
+
 var AddressBook = /** @class */ (function () {
     function AddressBook() {
         this.listOfContacts = [];
@@ -993,6 +943,8 @@ var AddressBook = /** @class */ (function () {
         for (var _i = 0; _i < arguments.length; _i++) {
             arrayOfContacts[_i] = arguments[_i];
         }
+        if (arrayOfContacts.length === 0)
+            throw new Error('must be the 1 contact minimum as args');
         arrayOfContacts.forEach(function (contact) {
             var doesNotExistInContacts = !_this.listOfContacts.find(function (contactFind) { return contactFind.uuid === contact.uuid; });
             if (doesNotExistInContacts) {
@@ -1006,12 +958,55 @@ var AddressBook = /** @class */ (function () {
             this.listOfGroups.push(groupContact);
         }
     };
-    AddressBook.prototype.searchContactFromPhrase = function (phrase) {
-        if (phrase.length < 3 || typeof phrase !== "string")
-            throw new Error('phrase must be the string and different from 0');
+    AddressBook.prototype.searchContactsFromPhrase = function (phrase) {
+        if (phrase.length < 3)
+            return 'not enough letters';
         return this.listOfContacts.filter(function (contact) {
-            return Object.values(contact).join('').toLowerCase().match(new RegExp(phrase, "g"));
+            return Object.values(contact).join('').toLowerCase().match(new RegExp(phrase.toLowerCase(), "g"));
         });
+    };
+    AddressBook.prototype.removeContacts = function () {
+        var _this = this;
+        var arrayOfContacts = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arrayOfContacts[_i] = arguments[_i];
+        }
+        if (arrayOfContacts.length === 0)
+            throw new Error('must be the 1 contact minimum as args');
+        arrayOfContacts.forEach(function (contact) {
+            var indxContact = _this.listOfContacts.findIndex(function (contactIndex) { return contactIndex.uuid === contact.uuid; });
+            if (indxContact === -1)
+                throw new Error('contact does not exist to list contacts');
+            _this.listOfContacts.splice(indxContact, 1);
+        });
+    };
+    AddressBook.prototype.removeGroups = function (groupContact) {
+        var indxGroupContact = this.listOfGroups.findIndex(function (groupIndex) { return groupIndex.uuid === groupContact.uuid; });
+        if (indxGroupContact === -1)
+            throw new Error('group contact does not exist to list group contacts');
+        this.listOfGroups.splice(indxGroupContact, 1);
+    };
+    AddressBook.prototype.updateContact = function (contact, key, value) {
+        _Validator__WEBPACK_IMPORTED_MODULE_0__["Validator"].isEmptyString(value);
+        var isFindContactIndex = this.listOfContacts.findIndex(function (contactFind) { return contactFind.uuid === contact.uuid; });
+        if (isFindContactIndex === -1)
+            throw new Error('contact does not exist to list of contacts');
+        if (key === "name") {
+            this.listOfContacts[isFindContactIndex].name = value;
+        }
+        else if (key === 'surname') {
+            this.listOfContacts[isFindContactIndex].surname = value;
+        }
+        else {
+            _Validator__WEBPACK_IMPORTED_MODULE_0__["Validator"].isWrongEmail(value);
+            this.listOfContacts[isFindContactIndex].email = value;
+        }
+    };
+    AddressBook.prototype.updateGroup = function (groupContact, key, value) {
+        _Validator__WEBPACK_IMPORTED_MODULE_0__["Validator"].isEmptyString(value);
+        var isFindGroupContactIndex = this.listOfGroups.findIndex(function (groupIndex) { return groupIndex.uuid === groupContact.uuid; });
+        if (isFindGroupContactIndex === -1)
+            throw new Error('group contact does not exist to list of group contacts');
     };
     return AddressBook;
 }());
@@ -1043,13 +1038,13 @@ var Contact = /** @class */ (function () {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.updatedDate = Date.now().toLocaleString();
+        this.createDate = new Date().toLocaleString();
     }
-    Contact.prototype.updateDate = function () {
-        return this.updatedDate = Date.now().toLocaleString();
+    Contact.prototype.modificationDate = function () {
+        this.createDate = Date.now().toLocaleString();
     };
     Contact.prototype.show = function () {
-        return ("\n            Imi\u0119: " + this.name + ",\n            Nazwisko: " + this.surname + ",\n            Email: " + this.email + ",\n            Data utworzenia: " + this.updatedDate + ",\n            ID:" + this.uuid + "\n            ");
+        return ("\n            Imi\u0119: " + this.name + ",\n            Nazwisko: " + this.surname + ",\n            Email: " + this.email + ",\n            Data utworzenia: " + this.createDate + ",\n            ID:" + this.uuid + "\n            ");
     };
     Contact.prototype.update = function (key, value) {
         _Validator__WEBPACK_IMPORTED_MODULE_1__["Validator"].isEmptyString(value);
@@ -1079,6 +1074,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Validator */ "./src/components/Validator.ts");
 
 
+// import { Utils } from './Utilis';
 var GroupContact = /** @class */ (function () {
     function GroupContact(nameGroup) {
         _Validator__WEBPACK_IMPORTED_MODULE_1__["Validator"].isEmptyString(nameGroup);
@@ -1086,12 +1082,18 @@ var GroupContact = /** @class */ (function () {
         this.name = nameGroup;
         this.contacts = [];
     }
+    GroupContact.prototype.changeNameGroup = function (nameGroup) {
+        _Validator__WEBPACK_IMPORTED_MODULE_1__["Validator"].isEmptyString(nameGroup);
+        this.name = nameGroup;
+    };
     GroupContact.prototype.addContacts = function () {
         var _this = this;
         var arrayOfContacts = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             arrayOfContacts[_i] = arguments[_i];
         }
+        if (arrayOfContacts.length === 0)
+            throw new Error("add minimum 1 contact");
         arrayOfContacts.forEach(function (contact) {
             var doesNotExistInContacts = !_this.contacts.find(function (contactFind) { return contactFind.uuid === contact.uuid; });
             if (doesNotExistInContacts) {
@@ -1100,20 +1102,30 @@ var GroupContact = /** @class */ (function () {
         });
     };
     GroupContact.prototype.removeContacts = function () {
+        // if(arrayOfContacts.length===0) throw new Error ('add minimum 1 contact to remove contact')
+        // arrayOfContacts.forEach(contact => {
+        //     // funkcjonalność generyczna
+        //     if (this.contacts.find(contactFind => contactFind.uuid === contact.uuid)) {
+        //         // .splice
+        //         // this.contact.splice(currentIndexFindIndex,1 )
+        //         this.contacts = this.contacts.filter(contactRemove => contactRemove.uuid !== contact.uuid)
+        //     }
+        // })
+        //ALTERNATIVE:
         var _this = this;
         var arrayOfContacts = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             arrayOfContacts[_i] = arguments[_i];
         }
+        if (arrayOfContacts.length === 0)
+            throw new Error('add minimum 1 contact to remove contact');
         arrayOfContacts.forEach(function (contact) {
-            if (_this.contacts.find(function (contactFind) { return contactFind.uuid === contact.uuid; })) {
-                _this.contacts = _this.contacts.filter(function (contactRemove) { return contactRemove.uuid !== contact.uuid; });
+            var indxContact = _this.contacts.findIndex(function (contactIndex) { return contactIndex.uuid === contact.uuid; });
+            if (indxContact === -1) {
+                throw new Error('contact does not exist to list contacts');
             }
+            _this.contacts.splice(indxContact, 1);
         });
-    };
-    GroupContact.prototype.changeNameGroup = function (nameGroup) {
-        _Validator__WEBPACK_IMPORTED_MODULE_1__["Validator"].isEmptyString(nameGroup);
-        this.name = nameGroup;
     };
     return GroupContact;
 }());
@@ -1140,6 +1152,7 @@ var Validator = /** @class */ (function () {
             throw new Error('Params must be string');
     };
     Validator.isWrongEmail = function (email) {
+        // cokolowiek bez znaków specjalnych@cokolowiek bez znaków specjalnych.cokolowiek bez znaków specjalnych{2,6}
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(email))
             throw new Error('Email must be a letter and must contain between 3-25 characters, and must have special characters "@"');
@@ -1147,6 +1160,60 @@ var Validator = /** @class */ (function () {
     return Validator;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/components/app.ts":
+/*!*******************************!*\
+  !*** ./src/components/app.ts ***!
+  \*******************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Contact__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Contact */ "./src/components/Contact.ts");
+/* harmony import */ var _GroupContact__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupContact */ "./src/components/GroupContact.ts");
+/* harmony import */ var _AddressBook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddressBook */ "./src/components/AddressBook.ts");
+// "1) Stwórz strukturę danych związaną z książką adresową.
+// Obiekt 
+// książka adresowa 
+// Ma mieć: listę wszystkich kontaktów, listę grup kontaktów.
+// Ma umożliwiać: można szukać kontaktu po frazie, można dodać kontakt do grupy
+//     Obiekt charakteryzujący pojedyńczy kontak:
+//     Ma mieć: Imie, Nazwisko, adres - emial, datę modyfikacji / utworzenia, uuid
+// Ma umożliwiać: aktualizację datę modyfikacji, wyświetlać
+// w odpowiednim formacie przy wywołaniu, pozwalac na modyfikację imienia, nazwiska oraz adresu email
+// Obiekt charakteryzujący grupę kontaktów:
+//     Ma mieć: listę kontaktów
+// Ma umożliwiać: Można zmienić nazwę grupy, można dodać lub usunac kontakt z grupy "				
+
+
+
+var contact = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Piotr', "J", 'p.j@gmail.com');
+var contact2 = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Jarek', 'Michalczewsk', 'JM@interia.pl');
+var contact3 = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Darek', 'fdsfds', 'ewrw@interia.pl');
+var contact4 = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('jacenty', 'zbysiu', 'KarolJM@interia.pl');
+var contact5 = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Marek', 'kowal', 'MAW@interia.pl');
+var contact6 = new _Contact__WEBPACK_IMPORTED_MODULE_0__["Contact"]('Mariusz', 'karnia', 'MKA@gmail.pl');
+var groupFriends = new _GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('znajomi');
+var groupFamily = new _GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('rodzina');
+var groupWork = new _GroupContact__WEBPACK_IMPORTED_MODULE_1__["GroupContact"]('praca');
+groupFriends.addContacts(contact, contact2, contact3);
+groupFamily.addContacts(contact3, contact4);
+groupWork.addContacts(contact6, contact5);
+groupFriends.removeContacts(contact2);
+groupFriends.removeContacts(contact);
+groupFriends.addContacts(contact);
+var addressBook = new _AddressBook__WEBPACK_IMPORTED_MODULE_2__["AddressBook"]();
+addressBook.addContacts(contact, contact2, contact3, contact4, contact5, contact6);
+addressBook.addGroups(groupFriends);
+addressBook.addGroups(groupFamily);
+addressBook.addGroups(groupWork);
+addressBook.updateContact(contact, 'name', 'darek');
+addressBook.updateContact(contact, 'surname', 'dupadupa');
+console.log(addressBook);
 
 
 /***/ })

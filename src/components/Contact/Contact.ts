@@ -1,9 +1,9 @@
 import {
     v4 as uuidv4
 } from 'uuid';
-import { IContact } from '../interface/IContact';
-import { availableKeys } from '../type/sharedTypes';
-import { Validator } from './Validator'
+import { IContact } from '../../interface/IContact';
+import { availableKeysContact } from '../../type/sharedTypes';
+import { Validator } from '../Validator'
 
 
 export class Contact implements IContact {
@@ -11,7 +11,7 @@ export class Contact implements IContact {
     name: string;
     surname: string;
     email: string
-    updatedDate: string;
+    createDate: string;
 
     constructor(name: string, surname: string, email: string) {
         Validator.isEmptyString(name)
@@ -22,10 +22,10 @@ export class Contact implements IContact {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.updatedDate = Date.now().toLocaleString();
+        this.createDate = new Date().toLocaleString();
     }
-    updateDate(): string {
-        return this.updatedDate = Date.now().toLocaleString()
+    modificationDate(): void {
+        this.createDate = Date.now().toLocaleString()
     }
 
     show(): string {
@@ -34,13 +34,13 @@ export class Contact implements IContact {
             Imię: ${this.name},
             Nazwisko: ${this.surname},
             Email: ${this.email},
-            Data utworzenia: ${this.updatedDate},
+            Data utworzenia: ${this.createDate},
             ID:${this.uuid}
             `
         )
     }
 
-    update(key: availableKeys, value: string): void {
+    update(key: availableKeysContact, value: string): void {
         Validator.isEmptyString(value)
         if (key === 'email') {
             Validator.isWrongEmail(value)

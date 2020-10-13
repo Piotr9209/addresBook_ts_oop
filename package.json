@@ -13,11 +13,13 @@
     "babel-preset-env": "^1.7.0",
     "css-loader": "^4.2.0",
     "i": "^0.3.6",
+    "jest": "^26.5.2",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "npm": "^6.14.7",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
+    "ts-jest": "^26.4.1",
     "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
     "url-loader": "^4.1.0",
@@ -28,7 +30,7 @@
   "scripts": {
     "start": "webpack --config webpack.config.js",
     "serve": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
