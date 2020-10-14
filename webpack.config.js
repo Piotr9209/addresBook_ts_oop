@@ -4,7 +4,7 @@ module.exports = {
   mode: "development", // alternative: "production"
   devtool: "source-map",
   watch: true,
-  entry: "./src/components/app.ts",
+  entry: "./src/components/app/app.ts",
   output: {
     publicPath: "dist",
     path: path.resolve(__dirname, "./dist"),

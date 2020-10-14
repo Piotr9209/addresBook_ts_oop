@@ -25,8 +25,10 @@ describe('Address Book should:', () => {
     const groupFriends = new GroupContact('friends');
     const contactFriends = new Contact('friends', 'darek', 'fd@gmail.com');
     const contactFriends2 = new Contact('friends', 'darek', 'fd@gmail.com');
-    myAddressBook3.addContactToGroup(contactFriends, groupFriends);
+
     test('add contact to group', () => {
+        myAddressBook3.addContactToGroup(contactFriends, groupFriends);
+
         expect(groupFriends.contacts).toHaveLength(1);
         expect(groupFriends.contacts[0]).toEqual(contactFriends);
         myAddressBook3.addContactToGroup(contactFriends2, groupFriends);
@@ -63,10 +65,10 @@ describe('Address Book should:', () => {
     test('remove group contact from list of group contact', () => {
         expect(myAddressBook6.listOfGroups).toHaveLength(2);
         expect(myAddressBook6.listOfGroups[1]).toEqual(groupGame);
-        myAddressBook6.removeGroups(groupFamily);
+        myAddressBook6.removeGroup(groupFamily);
         expect(myAddressBook6.listOfGroups).toHaveLength(1);
         expect(myAddressBook6.listOfGroups[0]).toEqual(groupGame);
-        myAddressBook6.removeGroups(groupGame);
+        myAddressBook6.removeGroup(groupGame);
         expect(myAddressBook6.listOfGroups).toHaveLength(0);
     });
 
@@ -137,21 +139,54 @@ describe('Address Book should throw error:', () => {
         expect(() => { expect(myAddressBook3.addGroups(groupFriends)) }).toThrowError('group contact is in array');
     });
 
-    // const myAddressBook4 = new AddressBook();
-    // const groupWorks = new GroupContact('works');
-    // const groupWorks2 = new GroupContact('works2');
-    // const myContact2 = new Contact('Karol', 'Jagielski', 'KarolJagielski@gmail.com');
+    const myAddressBook4 = new AddressBook();
+    const groupWorks = new GroupContact('works');
+    const myContact2 = new Contact('Karol', 'Jagielski', 'KarolJagielski@gmail.com');
 
-    // myAddressBook4.addContactToGroup(myContact2, groupWorks);
-    // test(`group contact doesn't include to listOfGroups, expected Error ('is wrong group contact')`, () => {
-    //     expect(() => (expect(myAddressBook4.addContactToGroup(myContact2, groupWorks2)))).toThrowError('is wrong group contact');
-    // });
-    // test('contact include to list of contacts in group contact, expected Error ("contact is in group")', () => {
-    //     expect(() => { expect(myAddressBook4.addContactToGroup(myContact2, groupWorks)) }).toThrowError('contact is in group')
-    // });
+    myAddressBook4.addContactToGroup(myContact2, groupWorks);
+    test('contact include to list of contacts in group contact, expected Error ("contact is in group")', () => {
+        expect(() => { expect(myAddressBook4.addContactToGroup(myContact2, groupWorks)) }).toThrowError('contact is in group')
+    });
 
-    // const myAddressBook5 = new AddressBook();
+    const myAddressBook5 = new AddressBook();
+    const myContact3 = new Contact('janek', 'karo', 'janekkaro@gmail.com');
+    const myContact4 = new Contact('janek', 'karo', 'janekkaro@gmail.com');
 
+    myAddressBook5.addContacts(myContact3);
+    test('no arguments in method removeContacts, expected Error "must be the 1 contact minimum as arg"', () => {
+        expect(() => { expect(myAddressBook5.removeContacts()) }).toThrowError('must be the 1 contact minimum as arg');
+    })
+
+    test('argument not include to array in method removeContacts, expected Error ("contact does not exist to list contacts")', () => {
+        expect(() => { expect(myAddressBook5.removeContacts(myContact4)) }).toThrowError('contact does not exist to list contacts');
+    })
+
+    const myAddressBook6 = new AddressBook();
+    const myGroupIT = new GroupContact('it');
+    const myGroupCar = new GroupContact('car');
+    myAddressBook6.addGroups(myGroupIT);
+
+    test('argument not include to array in method removeGroup, expected Error ("group contact does not exist to list group contacts")', () => {
+        expect(() => { expect(myAddressBook6.removeGroup(myGroupCar)) }).toThrowError('group contact does not exist to list group contacts');
+    })
+
+    const myAddressBook7 = new AddressBook()
+    const myContact5 = new Contact('moto', 'gp', 'mgp@gmail.com');
+    const myContact6 = new Contact('moto', 'gp', 'mgp@gmail.com');
+    myAddressBook7.addContacts(myContact5);
+    test('argument not include to array in method updateContact, expected Error ("contact does not exist to list of contacts")', () => {
+        expect(() => { expect(myAddressBook7.updateContact(myContact6, 'name', 'jarosław')) }).toThrowError('contact does not exist to list of contacts');
+    })
+
+    const myAddressBook8 = new AddressBook();
+    const myGroupMoto = new GroupContact('motoGP');
+    const myGroupGarden = new GroupContact('garden');
+
+    myAddressBook8.addGroups(myGroupMoto);
+
+    test('argument not include to array in method updateNameGroup, expected Error("group contact does not exist to list of group contacts")', () => {
+        expect(() => { expect(myAddressBook8.updateNameGroup(myGroupGarden, 'ogród')) }).toThrowError('group contact does not exist to list of group contacts');
+    })
 
 });
 

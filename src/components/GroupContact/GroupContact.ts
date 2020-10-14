@@ -1,7 +1,7 @@
 import {
     v4 as uuidv4
 } from 'uuid';
-import { Validator } from '../Validator';
+import { Validator } from '../Validator/Validator';
 import { IContact } from '../../interface/IContact';
 import { IGroupContact } from '../../interface/IGroupContact';
 // import { Utils } from './Utilis';

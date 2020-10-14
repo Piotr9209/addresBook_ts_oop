@@ -3,7 +3,7 @@ import {
 } from 'uuid';
 import { IContact } from '../../interface/IContact';
 import { availableKeysContact } from '../../type/sharedTypes';
-import { Validator } from '../Validator'
+import { Validator } from '../Validator/Validator'
 
 
 export class Contact implements IContact {

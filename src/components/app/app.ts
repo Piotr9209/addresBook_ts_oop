@@ -16,21 +16,21 @@
 
 
 
-import { Contact } from './Contact/Contact';
-import { GroupContact } from './GroupContact/GroupContact';
-import { AddressBook } from './AddressBook/AddressBook';
+import { Contact } from '../Contact/Contact';
+import { GroupContact } from '../GroupContact/GroupContact';
+import { AddressBook } from '../AddressBook/AddressBook';
 
 
-const contact = new Contact('Piotr', "J", 'p.j@gmail.com')
-const contact2 = new Contact('Jarek', 'Michalczewsk', 'JM@interia.pl')
-const contact3 = new Contact('Darek', 'fdsfds', 'ewrw@interia.pl')
-const contact4 = new Contact('jacenty', 'zbysiu', 'KarolJM@interia.pl')
-const contact5 = new Contact('Marek', 'kowal', 'MAW@interia.pl')
-const contact6 = new Contact('Mariusz', 'karnia', 'MKA@gmail.pl')
+// const contact = new Contact('Piotr', "J", 'p.j@gmail.com')
+// const contact2 = new Contact('Jarek', 'Michalczewsk', 'JM@interia.pl')
+// const contact3 = new Contact('Darek', 'fdsfds', 'ewrw@interia.pl')
+// const contact4 = new Contact('jacenty', 'zbysiu', 'KarolJM@interia.pl')
+// const contact5 = new Contact('Marek', 'kowal', 'MAW@interia.pl')
+// const contact6 = new Contact('Mariusz', 'karnia', 'MKA@gmail.pl')
 
 
-const groupFriends = new GroupContact('znajomi');
-const groupFamily = new GroupContact('rodzina');
+// const groupFriends = new GroupContact('znajomi');
+// const groupFamily = new GroupContact('rodzina');
 // const groupWork = new GroupContact('praca');
 
 
@@ -46,7 +46,7 @@ const groupFamily = new GroupContact('rodzina');
 // groupFriends.removeContacts(contact)
 // groupFriends.addContacts(contact);
 
-const addressBook = new AddressBook();
+// const addressBook = new AddressBook();
 // addressBook.addContacts(contact, contact2, contact3, contact4, contact5, contact6)
 // addressBook.addGroups(groupFriends)
 // addressBook.addGroups(groupFamily)
@@ -67,7 +67,11 @@ const addressBook = new AddressBook();
 // addressBook.addContactToGroup(contact2, groupFamily)
 // addressBook.addContactToGroup(contact3, groupFamily)
 
-addressBook.addContacts(contact);
-addressBook.addGroups(groupFriends);
-addressBook.addContactToGroup(contact, groupFriends);
-addressBook.addContactToGroup(contact, groupFamily);
+// addressBook.addContacts(contact);
+// addressBook.addGroups(groupFriends);
+// addressBook.addGroups(groupFamily);
+// addressBook.addContactToGroup(contact, groupFriends);
+// addressBook.addContactToGroup(contact, groupFamily);
+// addressBook.addContactToGroup(contact2, groupFamily);
+// addressBook.addContactToGroup(contact3, groupFamily);
+// addressBook.addContactToGroup(contact4, groupFamily);

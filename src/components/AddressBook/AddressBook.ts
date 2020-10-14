@@ -2,7 +2,7 @@ import { IGroupContact } from '../../interface/IGroupContact';
 import { IContact } from '../../interface/IContact';
 import { IAddressBook } from '../../interface/IAddressBook';
 import { availableKeysContact } from '../../type/sharedTypes';
-import { Validator } from '../Validator';
+import { Validator } from '../Validator/Validator';
 import { GroupContact } from '../GroupContact/GroupContact';
 
 
@@ -31,14 +31,13 @@ export class AddressBook implements IAddressBook {
         const doesNotExistInGroupContact = this.listOfGroups.find(group => group.uuid === groupContact.uuid)
         if (doesNotExistInGroupContact) {
             throw new Error('group contact is in array')
-        } else {
-            this.listOfGroups.push(groupContact)
         }
+        this.listOfGroups.push(groupContact)
     }
 
     addContactToGroup(contact: IContact, groupContact: IGroupContact): void | never {
         const isIncludeGroupContactToListOfGroups = this.listOfGroups.find(group => group.uuid === groupContact.uuid)
-        if (isIncludeGroupContactToListOfGroups) { throw new Error('is wrong contact') }
+        if (typeof isIncludeGroupContactToListOfGroups === 'undefined') { this.listOfGroups.push(groupContact) }
         const isIncludeContactToListContactsInGroupContact = groupContact.contacts.find(contactFind => contactFind.uuid === contact.uuid);
         if (isIncludeContactToListContactsInGroupContact) { throw new Error('contact is in group') }
         groupContact.contacts.push(contact);
@@ -52,7 +51,7 @@ export class AddressBook implements IAddressBook {
     }
 
     removeContacts(...arrayOfContacts: Array<IContact>): never | void | any {
-        if (arrayOfContacts.length === 0) throw new Error('must be the 1 contact minimum as args');
+        if (arrayOfContacts.length === 0) throw new Error('must be the 1 contact minimum as arg');
         arrayOfContacts.forEach(contact => {
             const indexContactInListContacts = this.listOfContacts.findIndex(contactIndex => contactIndex.uuid === contact.uuid);
             if (indexContactInListContacts === -1) throw new Error('contact does not exist to list contacts')
@@ -61,7 +60,7 @@ export class AddressBook implements IAddressBook {
         })
     }
 
-    removeGroups(groupContact: IGroupContact): never | void {
+    removeGroup(groupContact: IGroupContact): never | void {
         const indxGroupContact = this.listOfGroups.findIndex(groupIndex => groupIndex.uuid === groupContact.uuid);
         if (indxGroupContact === -1) throw new Error('group contact does not exist to list group contacts')
         this.listOfGroups.splice(indxGroupContact, 1);
