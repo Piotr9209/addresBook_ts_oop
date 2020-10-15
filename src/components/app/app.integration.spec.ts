@@ -52,10 +52,11 @@ describe('integration test of the application should ', () => {
     });
 
     test('remove father from group family', () => {
+        const lengthListOfContacts = addressBook.listOfContacts.length;
+        expect(addressBook.listOfContacts).toHaveLength(lengthListOfContacts);
         addressBook.removeContacts(father);
-        expect(addressBook.listOfContacts).toHaveLength(2);
-        expect(addressBook.listOfContacts[0]).toEqual(mother);
-        expect(addressBook.listOfContacts[1]).toEqual(brother);
+        expect(addressBook.listOfContacts).toHaveLength(lengthListOfContacts - 1);
+        expect(addressBook.listOfContacts.some(el => el.uuid === father.uuid)).toEqual(false);
     });
 
     test('remove group family', () => {

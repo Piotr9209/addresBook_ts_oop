@@ -6,5 +6,5 @@ export interface IGroupContact extends withUuid {
     contacts: Array<IContact>;
     addContacts(...arrayOfContacts: Array<IContact>): void;
     removeContacts(...arrayOfContacts: Array<IContact>): void;
-    changeNameGroup(nameGroup: string): void;
+    changeNameGroup(nameGroup: string): void; //changeGroupName
 }

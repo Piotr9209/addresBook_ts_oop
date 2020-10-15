@@ -2,7 +2,9 @@ import { IContact } from "./IContact";
 import { IGroupContact } from "./IGroupContact";
 import { availableKeysGroup, availableKeysContact } from "../type/sharedTypes";
 
-
+interface Groupable { }
+interface Contactable { }
+//zrobic 2 interfejsy i potem jedne z tego duzy
 export interface IAddressBook {
     listOfContacts: Array<IContact>;
     listOfGroups: Array<IGroupContact>;

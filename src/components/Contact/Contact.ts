@@ -40,7 +40,8 @@ export class Contact implements IContact {
         )
     }
 
-    update(key: availableKeysContact, value: string): void {
+    update(key: availableKeysContact, value: string): void | never {
+        this.modificationDate();
         Validator.isEmptyString(value)
         if (key === 'email') {
             Validator.isWrongEmail(value)

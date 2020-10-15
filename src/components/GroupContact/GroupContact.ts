@@ -4,7 +4,6 @@ import {
 import { Validator } from '../Validator/Validator';
 import { IContact } from '../../interface/IContact';
 import { IGroupContact } from '../../interface/IGroupContact';
-// import { Utils } from './Utilis';
 
 
 export class GroupContact implements IGroupContact {

@@ -3,12 +3,14 @@ import { GroupContact } from '../GroupContact/GroupContact'
 import { Contact } from '../Contact/Contact';
 
 describe('Address Book should:', () => {
-    const myAddressBook = new AddressBook();
-    const contact = new Contact('piotr', 'jakubowski', 'pj@gmail.com')
-    const contact2 = new Contact('jarek', 'badura', 'jb@gmail.com');
-    myAddressBook.addContacts(contact, contact2)
+
 
     test('add contacts to list of contacts', () => {
+        const myAddressBook = new AddressBook();
+        const contact = new Contact('piotr', 'jakubowski', 'pj@gmail.com')
+        const contact2 = new Contact('jarek', 'badura', 'jb@gmail.com');
+        myAddressBook.addContacts(contact, contact2)
+
         expect(myAddressBook.listOfContacts[0]).toEqual(contact);
         expect(myAddressBook.listOfContacts).toHaveLength(2);
     });
@@ -78,7 +80,7 @@ describe('Address Book should:', () => {
     myAddressBook7.addContacts(contactToUpdate);
     myAddressBook7.addContactToGroup(contactToUpdate, groupFacebook);
 
-    test('change all args in updateContact, expected changed all args in list of contacts and list of contacts in group', () => {
+    test('method updateContact, expected changed all args in list of contacts and list of contacts in group', () => {
         expect(myAddressBook7.listOfContacts[0].name).toEqual('paweł');
         expect(myAddressBook7.listOfContacts[0].surname).toEqual('jackowski');
         expect(groupFacebook.contacts[0].name).toEqual('paweł');

@@ -1,6 +1,21 @@
 import { GroupContact } from './GroupContact';
 import { Contact } from '../Contact/Contact';
 
+
+// - dziala dobrze
+// -- mogę dodać kontakty
+// -- mogę usunac kontakty
+// -- mogę zmienic nazwe grupy
+
+
+
+// - dobrze zarządza errorami
+// -- dostaję błąd kiedy dodaje istniejący kontakt
+// -- dostaje błąd kiedy usuwam nieistniejący kontakt
+// -- zmieniam nazwe na pusty string
+
+
+
 describe('group contact should', () => {
     const groupContact = new GroupContact('friends');
 
